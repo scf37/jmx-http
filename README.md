@@ -3,11 +3,51 @@ JMX-HTTP Connector
 
 A JMX connector (client and server) that runs JMX through HTTP (or HTTPS).
 
-### What does the URL format look like?
+### How to connect?
+Use self-contained launcher scripts for jconsole/jmc/jvisualvm from /launchers directory, they will automatically download jmx client jar and set up the classpath.
 
-    service:jmx:http(s)://${host}:${port}/${servlet-path}
+Then connect with JMX service URL: `service:jmx:http(s)://${host}:${port}/jmx`
 
-eg. <a href="service:jmx:http://localhost:8080/jmx-http">service:jmx:http://localhost:8080/jmx-http</a>
+### Setting up JMX server
+#### Add dependencies
+
+pom.xml:
+```xml
+<dependency>
+        <groupId>me.scf37</groupId>
+        <artifactId>jmx-http-server</artifactId>
+        <version>1.0.0</version>
+</dependency>
+```
+
+settings.xml:
+```xml
+<repositories>
+  <repository>
+    <id>bintray</id>
+    <url>http://dl.bintray.com/scf37/maven</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>false</enabled>
+    </snapshots>
+  </repository>
+</repositories>
+```
+
+#### Add JMX HTTP endpoint to your application 
+```java
+@PostMapping("/jmx")
+public byte[] serveJmx(@RequestBody byte[] request) {
+    try {
+        return JmxHttpServer.serve(request).get();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }   
+}
+``` 
+Similar approach is used for other web servers/frameworks - POST to any url, request and response bodies are binary.
 
 ### Why?
 
@@ -20,48 +60,17 @@ This connector is intended to be used in cases where you'll already have an HTTP
  * This connector is quite lightweight:
   * The protocol runs plain Java Serialization over HTTP, not XML or even SOAP.
   * notifications are done with long poll for maximum compatibility and low latency
-    * for minimal resource use servlet 3 async support is used
-  * No dependencies other than servlet API and Java SE
-   * The server server is 50 kb.
-   * The client client is 40 kb.
-
-### Why don't you use WebSockets?
-
-A lot of network infrastructure does not (yet) support WebSockets. Using WebSockets would therefore negate the goal of punches through firewalls.
+  * No dependencies other than Java SE 8
 
 ### What about security?
 
 Per default no security is applied. You can either use your existing networking configuration to secure access or build a new WAR with servlet security. The WAR project contains only the `web.xml` so this is easy.
 The client supports HTTP Basic authentication.
 
-### What about servlet logging?
-
-The servlet uses `java.util.logging` configure your server accordingly.
-
 ### What about load balancing?
 
 You should not connect to the application through a load balancer since you want to monitor a specific server rather than a "random" one.
 
-Protocol
---------
+### Protocol
 
-The client serializes each request as a command object and POSTs it to a servlet. The servlet deserializes the command and executes it. Afterwards the result is serialized and sent back to the client.
-
-Check out the class comment of `me.scf37.jmxhttp.server.servlet.JmxHttpServlet` for more details.
-
-Caveats
--------
- * Long polling may delay JVM shut down.
- * Listeners are prone to introduce memory leaks. Make sure you register the same listener object only once and use the same ObjectName for registering and unregistering.
-
-```java
-@PostMapping("/jmx")
-public byte[] serveJmx(@RequestBody byte[] request) {
-    try {
-        return JmxHttpServer.serve(request).get();
-    } catch (Exception e) {
-        throw new RuntimeException(e);
-    }   
-}
-```
-
+The client serializes each request to byte array and POSTs it to server. The servlet deserializes the command and executes it. Afterwards the result is serialized and sent back to the client.

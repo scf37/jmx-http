@@ -42,6 +42,7 @@ public class IntegrationTest {
 
             Assert.assertTrue(notificationCount.get() > 0);
 
+            Thread.sleep(10050000);
         }
     }
 

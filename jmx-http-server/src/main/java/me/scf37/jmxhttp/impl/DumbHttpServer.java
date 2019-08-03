@@ -32,20 +32,24 @@ public class DumbHttpServer {
         server.createContext("/jmx", new HttpHandler() {
             @Override
             public void handle(HttpExchange httpExchange) throws IOException {
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                int len;
-                byte[] buf = new byte[8192];
-                while ((len = httpExchange.getRequestBody().read(buf)) > 0) {
-                    os.write(buf, 0, len);
-                }
-
                 try {
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    int len;
+                    byte[] buf = new byte[8192];
+                    while ((len = httpExchange.getRequestBody().read(buf)) > 0) {
+                        os.write(buf, 0, len);
+                    }
+
                     byte[] resp = JmxHttpServer.serve(os.toByteArray()).get();
                     httpExchange.sendResponseHeaders(200, resp.length);
                     httpExchange.getResponseBody().write(resp);
                     httpExchange.getResponseBody().close();
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        httpExchange.getResponseBody().close();
+                    } catch (Exception e) { }
                 }
             }
         });
@@ -53,7 +57,7 @@ public class DumbHttpServer {
         Executor executor;
         synchronized (this) {
             if (httpExecutor == null) {
-                httpExecutor = Executors.newFixedThreadPool(4, new ThreadFactory() {
+                httpExecutor = Executors.newCachedThreadPool(new ThreadFactory() {
                     private AtomicInteger i = new AtomicInteger();
                     @Override
                     public Thread newThread(Runnable r) {

@@ -152,7 +152,10 @@ final class JmxHttpConnector implements JMXConnector {
             handback);
   }
 
-  private void sendNotification(Notification n) {
+  private synchronized void sendNotification(Notification n) {
+    if (this.state != State.CONNECTED) {
+      return;
+    }
     connectionBroadcaster.sendNotification(n);
   }
 
