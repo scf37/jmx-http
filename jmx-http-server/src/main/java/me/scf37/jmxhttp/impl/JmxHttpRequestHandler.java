@@ -16,11 +16,15 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.github.marschall.jmxhttp.common.http.HttpConstant.*;
 
@@ -34,6 +38,7 @@ public class JmxHttpRequestHandler {
     private final MBeanServer server;
     private final ClassLoader classLoader;
     private final Random correlationIdGenerator = new Random();
+    private final ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
 
     private Map<Long, Correlation> correlations = new HashMap<>();
 
@@ -107,7 +112,7 @@ public class JmxHttpRequestHandler {
 
     private CompletableFuture<byte[]> handleListen(long correlationId) {
         Correlation c = getCorrelation(correlationId);
-        return c.fetchNotifications().thenCompose(list -> {
+        CompletableFuture<byte[]> notifications = c.fetchNotifications().thenCompose(list -> {
             try {
                 return CompletableFuture.completedFuture(writeObject(list));
             } catch (IOException e) {
@@ -116,6 +121,29 @@ public class JmxHttpRequestHandler {
                 return f;
             }
         });
+
+        CompletableFuture<byte[]> result = new CompletableFuture<>();
+
+        notifications.whenComplete((res, err) -> {
+            if (res != null) {
+                result.complete(res);
+            } else {
+                result.completeExceptionally(err);
+            }
+        });
+
+        timer.schedule(() -> {
+            if (!result.isDone()) {
+                try {
+                    result.complete(writeObject(Collections.emptyList()));
+                } catch (IOException e) {
+                    // should never happen
+                    result.complete(new byte[0]);
+                }
+            }
+        }, 30, TimeUnit.SECONDS);
+
+        return result;
     }
 
     private byte[] writeObject(Object response) throws IOException {
