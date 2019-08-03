@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.marschall</groupId>
+  <groupId>me.scf37</groupId>
   <artifactId>jmx-http</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -11,11 +11,11 @@
     <maven>3.0</maven>
   </prerequisites>
 
-  <url>https://github.com/marschall/jmx-http</url>
+  <url>https://github.com/scf37/jmx-http</url>
 
   <scm>
-    <connection>scm:git:git@github.com:marschall/jmx-http.git</connection>
-    <developerConnection>scm:git:git@github.com:marschall/jmx-http.git</developerConnection>
+    <connection>scm:git:git@github.com:scf37/jmx-http.git</connection>
+    <developerConnection>scm:git:git@github.com:scf37/jmx-http.git</developerConnection>
     <url>${project.url}</url>
     <tag>HEAD</tag>
   </scm>
@@ -26,6 +26,15 @@
       <name>Philippe Marschall</name>
       <email>philippe.marschall@gmail.com</email>
       <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>scf37</id>
+      <name>scf37</name>
+      <email>scf370@gmail.com</email>
+      <timezone>+3</timezone>
       <roles>
         <role>developer</role>
       </roles>
@@ -42,7 +51,7 @@
 
   <modules>
     <module>jmx-http-common</module>
-    <module>jmx-http-client-urlconnection</module>
+    <module>jmx-http-client</module>
     <module>jmx-http-server</module>
     <module>jmx-http-test</module>
   </modules>

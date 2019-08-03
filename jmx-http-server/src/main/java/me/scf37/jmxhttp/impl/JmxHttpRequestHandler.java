@@ -1,9 +1,9 @@
 package me.scf37.jmxhttp.impl;
 
-import com.github.marschall.jmxhttp.common.command.ClassLoaderObjectInputStream;
-import com.github.marschall.jmxhttp.common.command.Command;
-import com.github.marschall.jmxhttp.common.http.Registration;
-import com.github.marschall.jmxhttp.common.http.UnknownCorrelationIdException;
+import me.scf37.jmxhttp.common.command.ClassLoaderObjectInputStream;
+import me.scf37.jmxhttp.common.command.Command;
+import me.scf37.jmxhttp.common.http.Registration;
+import me.scf37.jmxhttp.common.http.UnknownCorrelationIdException;
 
 import javax.management.JMException;
 import javax.management.MBeanServer;
@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.marschall.jmxhttp.common.http.HttpConstant.*;
+import static me.scf37.jmxhttp.common.http.HttpConstant.*;
 
 /**
  * jmx-http request handler.

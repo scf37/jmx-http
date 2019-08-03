@@ -1,7 +1,7 @@
 package me.scf37.jmxhttp.impl;
 
-import com.github.marschall.jmxhttp.common.command.NotificationRegistry;
-import com.github.marschall.jmxhttp.common.http.RemoteNotification;
+import me.scf37.jmxhttp.common.command.NotificationRegistry;
+import me.scf37.jmxhttp.common.http.RemoteNotification;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.ListenerNotFoundException;

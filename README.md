@@ -47,7 +47,7 @@ Protocol
 
 The client serializes each request as a command object and POSTs it to a servlet. The servlet deserializes the command and executes it. Afterwards the result is serialized and sent back to the client.
 
-Check out the class comment of `com.github.marschall.jmxhttp.server.servlet.JmxHttpServlet` for more details.
+Check out the class comment of `me.scf37.jmxhttp.server.servlet.JmxHttpServlet` for more details.
 
 Caveats
 -------
