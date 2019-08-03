@@ -2,12 +2,12 @@ package com.github.marschall.jmxhttp.common.http;
 
 public final class HttpConstant {
 
-  public static final String ACTION_LISTEN = "listen";
-  public static final String ACTION_UNREGISTER = "unregister";
-  public static final String ACTION_REGISTER = "register";
-  public static final String PARAMETER_CORRELATION_ID = "correlationId";
-  public static final String PARAMETER_ACTION = "action";
-  public static final String JAVA_SERIALIZED_OBJECT = "application/x-java-serialized-object";
+  public static final int ACTION_MAGIC = 0xd1ab10;
+  public static final int ACTION_REGISTER = 1;
+  public static final int ACTION_LISTEN = 2;
+  public static final int ACTION_COMMAND = 3;
+  public static final int ACTION_CONNECTION_ID = 4;
+
 
   private HttpConstant() {
     throw new AssertionError("not instantiable");

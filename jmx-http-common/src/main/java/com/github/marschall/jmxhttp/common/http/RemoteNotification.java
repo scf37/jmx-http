@@ -1,8 +1,7 @@
 package com.github.marschall.jmxhttp.common.http;
 
-import java.io.Serializable;
-
 import javax.management.Notification;
+import java.io.Serializable;
 
 public final class RemoteNotification implements Serializable {
 

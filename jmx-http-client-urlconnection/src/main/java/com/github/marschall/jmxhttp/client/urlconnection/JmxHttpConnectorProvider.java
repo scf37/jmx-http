@@ -1,13 +1,12 @@
 package com.github.marschall.jmxhttp.client.urlconnection;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorProvider;
-import javax.management.remote.JMXProviderException;
 import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Connector provider for running JMX over HTTP.
@@ -31,7 +30,7 @@ public class JmxHttpConnectorProvider implements JMXConnectorProvider {
     }
     String protocol = serviceURL.getProtocol();
     if (!"http".equals(protocol) && !"https".equals(protocol)) {
-      throw new JMXProviderException("unsupported protocol: " + protocol);
+      throw new MalformedURLException("unsupported protocol: " + protocol);
     }
     return new URL(protocol, serviceURL.getHost(), port, serviceURL.getURLPath());
   }

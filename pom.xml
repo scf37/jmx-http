@@ -43,8 +43,8 @@
   <modules>
     <module>jmx-http-common</module>
     <module>jmx-http-client-urlconnection</module>
-    <module>jmx-http-server-war</module>
-    <module>jmx-http-server-servlet</module>
+    <module>jmx-http-server</module>
+    <module>jmx-http-test</module>
   </modules>
   
   <distributionManagement>
