@@ -54,4 +54,14 @@ Caveats
  * Long polling may delay JVM shut down.
  * Listeners are prone to introduce memory leaks. Make sure you register the same listener object only once and use the same ObjectName for registering and unregistering.
 
+```java
+@PostMapping("/jmx")
+public byte[] serveJmx(@RequestBody byte[] request) {
+    try {
+        return JmxHttpServer.serve(request).get();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }   
+}
+```
 

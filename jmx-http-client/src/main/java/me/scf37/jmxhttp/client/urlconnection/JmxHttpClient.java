@@ -66,10 +66,11 @@ class JmxHttpClient {
 
     private <R> R send(int action, long correlationId, Object request) throws Exception {
         HttpURLConnection urlConnection = (HttpURLConnection) this.url.openConnection();
-        urlConnection.setRequestProperty("Accept-Encoding", "gzip");
+        urlConnection.setRequestProperty("Accept-encoding", "gzip");
         urlConnection.setDoOutput(true);
         urlConnection.setRequestMethod("POST");
         urlConnection.setChunkedStreamingMode(0);
+        urlConnection.setRequestProperty("Content-type", "application/jmx-http");
         if (credentials.isPresent()) {
             urlConnection.setRequestProperty("Authorization", credentials.get());
         }

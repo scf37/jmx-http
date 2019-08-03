@@ -68,6 +68,7 @@ final class JmxHttpConnection implements MBeanServerConnection, Closeable {
     this.httpClient = httpClient;
     this.correlationId = correlationId;
     this.pollerThread = new Thread(this::listenLoop, "jmx-http-poll-thread");
+    this.pollerThread.setDaemon(true);
     this.pollerThread.start();
   }
 
