@@ -1,10 +1,10 @@
 JMX-HTTP Connector
 ==================
-
+<img align="right" src="jmx.png" width=420>
 A JMX connector (client and server) that runs JMX through HTTP (or HTTPS).
 
 ### How to connect?
-Use self-contained launcher scripts for jconsole/jmc/jvisualvm from /launchers directory, they will automatically download jmx client jar and set up the classpath.
+Use self-contained <a href=launchers>launcher scripts</a> for jconsole/jmc/jvisualvm, they will automatically download jmx client jar and set up the classpath.
 
 Then connect with JMX service URL: `service:jmx:http(s)://${host}:${port}/jmx`
 
