@@ -1,15 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>me.scf37</groupId>
+  <groupId>me.scf37.jmx-http</groupId>
   <artifactId>jmx-http</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
   <inceptionYear>2014</inceptionYear>
 
-  <prerequisites>
-    <maven>3.0</maven>
-  </prerequisites>
+  <name>JMX over HTTP</name>
+  <description>Client and server libraries to use JMX over HTTP</description>
+
+<!--  <prerequisites>-->
+<!--    <maven>3.0</maven>-->
+<!--  </prerequisites>-->
 
   <url>https://github.com/scf37/jmx-http</url>
 
@@ -55,11 +58,15 @@
     <module>jmx-http-server</module>
     <module>jmx-http-test</module>
   </modules>
-  
+
   <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
     <repository>
-      <id>bintray</id>
-      <url>https://api.bintray.com/maven/scf37/maven/jmx-http</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
   </distributionManagement>
 
@@ -104,6 +111,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement>

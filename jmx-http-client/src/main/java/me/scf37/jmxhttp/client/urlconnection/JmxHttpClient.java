@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.lang.invoke.MethodHandles;
+import java.net.HttpRetryException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.rmi.MarshalException;
@@ -96,10 +97,14 @@ class JmxHttpClient {
 
     @SuppressWarnings("unchecked")
     <R> R readResponseAsObject(HttpURLConnection urlConnection, ClassLoader classLoader) throws IOException, Exception {
-        int status = urlConnection.getResponseCode();
+        int status;
+        try {
+            status = urlConnection.getResponseCode();
+        } catch (HttpRetryException e) {
+            status = e.responseCode();
+        }
 
         if (status != 200) {
-            readBody(urlConnection);
             throw new IOException("http request failed with status: " + status + " body " + readBody(urlConnection));
         }
 

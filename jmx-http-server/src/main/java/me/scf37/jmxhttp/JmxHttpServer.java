@@ -38,8 +38,8 @@ public class JmxHttpServer {
      * Lazy man's JMX HTTP server. After calling this method, JMX becomes available under url
      * "service:jmx:http://{host}:{port}/jmx"
      *
-     * @param port
-     * @throws IOException
+     * @param port HTTP port to listen on
+     * @throws IOException port is occupied or other IO error
      */
     public static void startHttpServer(int port) throws IOException {
         new DumbHttpServer().serve(port);

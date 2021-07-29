@@ -2,11 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>me.scf37</groupId>
+    <groupId>me.scf37.jmx-http</groupId>
     <artifactId>jmx-http</artifactId>
     <version>1.0.0</version>
   </parent>
   <artifactId>jmx-http-client</artifactId>
+
+  <name>JMX over HTTP client connector</name>
+  <description>Connector for JMX clients like jconsole, jvisualvm, jmc</description>
 
   <dependencies>
     <dependency>
@@ -37,4 +40,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>

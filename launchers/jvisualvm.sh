@@ -10,7 +10,7 @@ ARCHIVE_FILE=$CACHE_ROOT/jmx-http-client-$VERSION.jar
 
 if [ ! -e "$ARCHIVE_FILE" ]; then
     echo "Downloading binaries..."
-    curl -L https://dl.bintray.com/scf37/maven/me/scf37/jmx-http-client/$VERSION/jmx-http-client-$VERSION.jar -o $ARCHIVE_FILE
+    curl -L https://repo.maven.apache.org/maven2/me/scf37/jmx-http/jmx-http-client/$VERSION/jmx-http-client-$VERSION.jar -o $ARCHIVE_FILE
 fi
 
 
